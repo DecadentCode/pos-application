@@ -58,6 +58,8 @@ h2 {
   justify-content: center;
 }
 .goods {
+  display: flex;
+  justify-content: center;
   margin: 20px;
   border: 6px solid #dddaff;
   align-items: center;
@@ -74,7 +76,22 @@ h2 {
 .ticket-images {
   width: 100%;
 }
-/* 
+.ticket-container {
+  border: 2px dashed black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 50px;
+  width: 300px;
+  height: 600px;
+  text-align: center;
+}
 .cheap {
-
-} */
+  background-color: coral;
+}
+.average {
+  background-color: #dbdbdc;
+}
+.expensive {
+  background-color: #e7d27c;
+}
