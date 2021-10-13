@@ -1,25 +1,25 @@
 "use strict";
 
-const ticketArray = [
-  {
-    name: "General Admission",
-    category: "tickets",
-    description: "Basic admissions",
-    price: 40,
-  },
-  {
-    name: "Medium Admission",
-    category: "tickets",
-    description: "Medium Admissions",
-    price: 100,
-  },
-  {
-    name: "Grande Admission",
-    category: "tickets",
-    description: "Grande Admissions",
-    price: 10000,
-  },
-];
+// const ticketArray = [
+//   {
+//     name: "General Admission",
+//     category: "tickets",
+//     description: "Basic admissions",
+//     price: 40,
+//   },
+//   {
+//     name: "Medium Admission",
+//     category: "tickets",
+//     description: "Medium Admissions",
+//     price: 100,
+//   },
+//   {
+//     name: "Grande Admission",
+//     category: "tickets",
+//     description: "Grande Admissions",
+//     price: 10000,
+//   },
+// ];
 
 ticketArray.forEach();
 
