@@ -7,6 +7,11 @@ body {
 a {
   text-decoration: none;
 }
+
+img {
+  width: 100%;
+}
+
 ul {
   list-style: none;
 }
@@ -55,6 +60,7 @@ h2 {
 .goods {
   margin: 20px;
   border: 6px solid #dddaff;
+  align-items: center;
 }
 .ticket {
   width: 300px;
@@ -64,3 +70,11 @@ h2 {
   width: 200px;
   height: 200px;
 }
+
+.ticket-images {
+  width: 100%;
+}
+/* 
+.cheap {
+
+} */
