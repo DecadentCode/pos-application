@@ -5,12 +5,50 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+    </style>
     <title>P.O.S. Application</title>
   </head>
   <body>
-    <header>
-      <h1>Rick's Radical Rides - Souvenier Stand</h1>
+    <header class='nav-header'>
+      <a href="#" class='logo-box'>
+      <img src="assets/logo.png" alt="Rick's Rides Logo" class='logo'></img>
+      </a>
+      <nav>
+        <ul class='nav-list'>
+          <li><a href="#" class='nav-link'>Home</a></li>
+          <li><a href="#" class='nav-link'>About</a></li>
+          <li><a href="#" class='nav-link'>Store</a></li>
+        </ul>
+      </nav>
+      <img src="assets/cart-icon.png" alt="Shopping cart icon" class='cart'>
     </header>
+    <main>
+      <h1>Rick's Radical Rides</h1>
+      <h2>Tickets</h2>
+    <section class='tickets goods-box'>
+      <div class="ticket goods"></div>
+      <div class="ticket goods"></div>
+      <div class="ticket goods"></div>
+    </section>
+    <h2>Clothes</h2>
+    <section class='goods-box'>
+      <div class="goods not-tickets"></div>
+      <div class="goods not-tickets"></div>
+      <div class="goods not-tickets"></div>
+      <div class="goods not-tickets"></div>
+      <div class="goods not-tickets"></div>
+      <div class="goods not-tickets"></div>
+    </section>
+    <h2>Collectables</h2>
+    <section class='goods-box'>
+      <div class="goods not-tickets"></div>
+      <div class="goods not-tickets"></div>
+      <div class="goods not-tickets"></div>
+      <div class="goods not-tickets"></div>
+    </section>
+  </main>
     <script src="script.js"></script>
   </body>
 </html>
