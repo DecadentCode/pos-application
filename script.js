@@ -19,28 +19,28 @@ const goodsArray = [
     picture: "assets/hat.png",
   },
   {
-    name: "bandana",
+    name: "Bandana",
     category: "clothes",
     description: "bandana",
     price: 5,
     picture: "assets/bandana.png",
   },
   {
-    name: "Womens shirt",
+    name: "Crop Top",
     category: "clothes",
     description: "womens shirt",
     price: 5,
     picture: "assets/rick-croptop.png",
   },
   {
-    name: "Mens shirt",
+    name: "Mens Shirt",
     category: "clothes",
     description: "mens shirt",
     price: 99,
     picture: "assets/dudeshirt.png",
   },
   {
-    name: "Dog beanies",
+    name: "Dog Beanies",
     category: "clothes",
     description: "dog beanie",
     price: 10,
@@ -91,7 +91,9 @@ const goodsFunction = (array, destination) => {
     const input = document.createElement("input");
     const button = document.createElement("button");
     price.textContent = `$${item.price}`;
-    listItem.classList.add("not-tickets", "goods", "list-item");
+    listItem.classList.add("list-item");
+    container.classList.add("goods-container");
+    image.classList.add("goods");
     title.textContent = item.name;
     button.textContent = "Add to cart";
     label.textContent = "qty.";
