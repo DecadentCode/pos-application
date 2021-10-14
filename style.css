@@ -79,7 +79,7 @@ input {
   border-radius: 6px;
 }
 
-.cart {
+.cart-icon {
   margin: 5px;
   height: 50px;
   width: 50px;
@@ -104,7 +104,9 @@ input {
   align-items: center;
   margin: 50px;
   width: 312px;
+  height: 450px;
   text-align: center;
+  justify-content: space-between;
 }
 
 .goods {
@@ -157,4 +159,33 @@ input {
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
+}
+
+.cart-container {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+
+.hide {
+  display: none;
+}
+
+.cart-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 50%;
+  width: 50%;
+  background-color: white;
+  position: relative;
+  overflow-y: scroll;
 }

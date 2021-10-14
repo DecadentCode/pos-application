@@ -2,22 +2,30 @@
 
 const clothingList = document.querySelector(".clothing-list");
 const collectablesList = document.querySelector(".collectables-list");
+const cartContanier = document.querySelector(".cart-container");
+const cartIcon = document.querySelector(".cart-icon");
+const ticketSection = document.querySelector(".tickets-section");
+const cartList = document.querySelector(".cart-list");
+const cartArray = [];
 
 const ticketsArray = [
   {
     name: "General Admission",
     category: "ticket",
     price: 40,
+    picture: "Assets/ticket1.png",
   },
   {
     name: "Medium Admission",
     category: "ticket",
     price: 100,
+    picture: "Assets/ticket2.png",
   },
   {
     name: "Grande Admission",
     category: "ticket",
     price: 10000,
+    picture: "Assets/ticket3.png",
   },
 ];
 
@@ -100,11 +108,13 @@ const collectablesArray = [
 const ticketContainers = document.querySelectorAll(".ticket-container");
 
 const ticketForms = () => {
-  ticketContainers.forEach((item) => {
+  ticketContainers.forEach((item, index) => {
     const form = document.createElement("form");
     const label = document.createElement("label");
     const input = document.createElement("input");
     const button = document.createElement("button");
+    button.setAttribute("data-index", index);
+    button.classList.add("add-to-cart");
     button.textContent = "Add to cart";
     label.textContent = "qty.";
     label.setAttribute("for", "qty");
@@ -154,6 +164,41 @@ const goodsFunction = (array, destination) => {
   });
 };
 
+cartIcon.addEventListener("click", () => {
+  cartContanier.classList.remove("hide");
+});
+
+ticketSection.addEventListener("click", (e) => {
+  const qty = document.querySelector("#qty").value;
+  if (e.target.classList.contains("add-to-cart")) {
+    const index = e.target.getAttribute("data-index");
+    const newItem = {
+      qty,
+      name: ticketsArray[index].name,
+      price: ticketsArray[index].price,
+    };
+    cartArray.push(newItem);
+    console.log(cartArray);
+  }
+  cartArrayFunction();
+});
+
+const cartArrayFunction = () => {
+  cartArray.forEach((item) => {
+    const listItem = document.createElement("li");
+    const name = document.createElement("p");
+    const qty = document.createElement("p");
+    const price = document.createElement("p");
+    name.textContent = item.name;
+    price.textContent = item.price;
+    qty.textContent = item.qty;
+    listItem.append(name, qty, price);
+    cartList.append(listItem);
+  });
+  console.log(cartArray);
+};
+
+cartArrayFunction();
 goodsFunction(goodsArray, clothingList);
 goodsFunction(collectablesArray, collectablesList);
 ticketForms();
