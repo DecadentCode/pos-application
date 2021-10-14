@@ -97,13 +97,13 @@ input {
 }
 
 .ticket-container {
-  border: 2px dashed black;
   display: flex;
+  border: 2px dashed black;
+  padding: 4px;
   flex-direction: column;
   align-items: center;
   margin: 50px;
-  width: 300px;
-  height: 600px;
+  width: 312px;
   text-align: center;
 }
 
@@ -128,6 +128,7 @@ input {
 .high-ticket {
   width: 300px;
   height: 300px;
+  border: 6px solid #dddaff;
 }
 
 .goods-container {
