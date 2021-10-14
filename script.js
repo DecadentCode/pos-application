@@ -3,6 +3,24 @@
 const clothingList = document.querySelector(".clothing-list");
 const collectablesList = document.querySelector(".collectables-list");
 
+const ticketsArray = [
+  {
+    name: "General Admission",
+    category: "ticket",
+    price: 40,
+  },
+  {
+    name: "Medium Admission",
+    category: "ticket",
+    price: 100,
+  },
+  {
+    name: "Grande Admission",
+    category: "ticket",
+    price: 10000,
+  },
+];
+
 const goodsArray = [
   {
     name: "Hoodie",
@@ -79,6 +97,29 @@ const collectablesArray = [
   },
 ];
 
+const ticketContainers = document.querySelectorAll(".ticket-container");
+
+const ticketForms = () => {
+  ticketContainers.forEach((item) => {
+    const form = document.createElement("form");
+    const label = document.createElement("label");
+    const input = document.createElement("input");
+    const button = document.createElement("button");
+    button.textContent = "Add to cart";
+    label.textContent = "qty.";
+    label.setAttribute("for", "qty");
+    input.setAttribute("id", "qty");
+    input.setAttribute("name", "qty");
+    input.setAttribute("type", "number");
+    form.append(label, input, button);
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      form.reset();
+    });
+    item.append(form);
+  });
+};
+
 const goodsFunction = (array, destination) => {
   array.forEach((item) => {
     const listItem = document.createElement("li");
@@ -90,6 +131,7 @@ const goodsFunction = (array, destination) => {
     const label = document.createElement("label");
     const input = document.createElement("input");
     const button = document.createElement("button");
+    image.setAttribute("src", item.picture);
     price.textContent = `$${item.price}`;
     listItem.classList.add("list-item");
     container.classList.add("goods-container");
@@ -97,7 +139,6 @@ const goodsFunction = (array, destination) => {
     title.textContent = item.name;
     button.textContent = "Add to cart";
     label.textContent = "qty.";
-    image.setAttribute("src", item.picture);
     label.setAttribute("for", "qty");
     input.setAttribute("id", "qty");
     input.setAttribute("name", "qty");
@@ -115,3 +156,4 @@ const goodsFunction = (array, destination) => {
 
 goodsFunction(goodsArray, clothingList);
 goodsFunction(collectablesArray, collectablesList);
+ticketForms();
