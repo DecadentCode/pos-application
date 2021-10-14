@@ -6,7 +6,10 @@ const cartContanier = document.querySelector(".cart-container");
 const cartIcon = document.querySelector(".cart-icon");
 const ticketSection = document.querySelector(".tickets-section");
 const cartList = document.querySelector(".cart-list");
+const ticketContainers = document.querySelectorAll(".ticket-container");
+const clothingSection = document.querySelector(".clothing-section");
 const cartArray = [];
+const cartCounter = document.querySelector(".cart-counter");
 
 const ticketsArray = [
   {
@@ -105,7 +108,11 @@ const collectablesArray = [
   },
 ];
 
-const ticketContainers = document.querySelectorAll(".ticket-container");
+const displayCartNumber = () => {
+  let cartNumber = cartArray.length;
+  cartCounter.textContent = cartNumber;
+};
+displayCartNumber();
 
 const ticketForms = () => {
   ticketContainers.forEach((item, index) => {
@@ -118,7 +125,7 @@ const ticketForms = () => {
     button.textContent = "Add to cart";
     label.textContent = "qty.";
     label.setAttribute("for", "qty");
-    input.setAttribute("id", "qty");
+    input.setAttribute("id", `qty-${index}`);
     input.setAttribute("name", "qty");
     input.setAttribute("type", "number");
     form.append(label, input, button);
@@ -131,7 +138,7 @@ const ticketForms = () => {
 };
 
 const goodsFunction = (array, destination) => {
-  array.forEach((item) => {
+  array.forEach((item, index) => {
     const listItem = document.createElement("li");
     const title = document.createElement("h3");
     const image = document.createElement("img");
@@ -141,16 +148,22 @@ const goodsFunction = (array, destination) => {
     const label = document.createElement("label");
     const input = document.createElement("input");
     const button = document.createElement("button");
+    button.setAttribute("data-index", index);
+    button.classList.add("add-to-cart");
+    button.textContent = "Add to cart";
     image.setAttribute("src", item.picture);
     price.textContent = `$${item.price}`;
     listItem.classList.add("list-item");
     container.classList.add("goods-container");
     image.classList.add("goods");
     title.textContent = item.name;
-    button.textContent = "Add to cart";
     label.textContent = "qty.";
     label.setAttribute("for", "qty");
-    input.setAttribute("id", "qty");
+    if (array === goodsArray) {
+      input.setAttribute("id", `goodsQty-${index}`);
+    } else if (array === collectablesArray) {
+      input.setAttribute("id", `collectablesQty-${index}`);
+    }
     input.setAttribute("name", "qty");
     input.setAttribute("type", "number");
     form.append(label, input, button);
@@ -169,21 +182,25 @@ cartIcon.addEventListener("click", () => {
 });
 
 ticketSection.addEventListener("click", (e) => {
-  const qty = document.querySelector("#qty").value;
+  const qty = parseInt(e.target.previousSibling.value);
   if (e.target.classList.contains("add-to-cart")) {
     const index = e.target.getAttribute("data-index");
     const newItem = {
       qty,
       name: ticketsArray[index].name,
-      price: ticketsArray[index].price,
     };
     cartArray.push(newItem);
-    console.log(cartArray);
+    displayCartNumber();
   }
   cartArrayFunction();
 });
 
 const cartArrayFunction = () => {
+  cartList.innerHTML = "";
+  const closeButton = document.createElement("p");
+  closeButton.textContent = "X";
+  closeButton.classList.add("close-me");
+  cartList.append(closeButton);
   cartArray.forEach((item) => {
     const listItem = document.createElement("li");
     const name = document.createElement("p");
@@ -197,6 +214,12 @@ const cartArrayFunction = () => {
   });
   console.log(cartArray);
 };
+
+cartContanier.addEventListener("click", (e) => {
+  if (e.target.classList.contains("close-me")) {
+    cartContanier.classList.toggle("hide");
+  }
+});
 
 cartArrayFunction();
 goodsFunction(goodsArray, clothingList);
