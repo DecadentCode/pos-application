@@ -177,7 +177,9 @@ input {
   justify-content: center;
   display: flex;
 }
-.cart-list {
+.cart-list,
+.cash-form,
+.credit-form {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -186,26 +188,36 @@ input {
   width: 50%;
   background-color: white;
   position: relative;
+}
+.cart-list {
   overflow-y: scroll;
 }
 .hide {
   display: none;
 }
-
 .cart-li {
   display: flex;
 }
-
 .close-me {
   position: absolute;
+  height: 15px;
+  width: 15px;
+  text-align: center;
   left: 4px;
   top: 4px;
   cursor: pointer;
+  border: 2px solid black;
+  padding: 4px;
 }
-
-.checkout {
+.checkout-cash {
   position: absolute;
   bottom: 5px;
-  right: auto;
-  left: auto;
+  right: 20%;
 }
+.checkout-credit {
+  position: absolute;
+  bottom: 5px;
+  left: 20%;
+}
+
+/* --Checkout Cash Container-- */
