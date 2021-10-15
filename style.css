@@ -191,8 +191,21 @@ input {
 .hide {
   display: none;
 }
+
+.cart-li {
+  display: flex;
+}
+
 .close-me {
   position: absolute;
   left: 4px;
   top: 4px;
+  cursor: pointer;
+}
+
+.checkout {
+  position: absolute;
+  bottom: 5px;
+  right: auto;
+  left: auto;
 }
