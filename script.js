@@ -8,6 +8,13 @@ const clothingList = document.querySelector(".clothing-list");
 const collectablesList = document.querySelector(".collectables-list");
 const cartContainer = document.querySelector(".cart-container");
 const cartList = document.querySelector(".cart-list");
+const clothesSection = document.querySelector(".clothes-section");
+const collectablesSection = document.querySelector(".collectables-section");
+const checkoutContainer = document.querySelector(".checkout-container");
+const subtotalP = document.querySelector(".subtotal-p");
+const salesTaxP = document.querySelector(".sales-tax-p");
+const totalP = document.querySelector(".total-p");
+let totalCounter = 0;
 
 // ---- ARRAYS ----
 const cartArray = [];
@@ -142,6 +149,8 @@ const createForm = (index, array) => {
   input.setAttribute("id", `qty-${index}`);
   input.setAttribute("name", "qty");
   input.setAttribute("type", "number");
+  input.setAttribute("min", 1);
+  input.setAttribute("value", 1);
   let inputId = "";
   if (array === clothesArray) {
     inputId = `clothesQty-${index}`;
@@ -197,6 +206,52 @@ ticketSection.addEventListener("click", (e) => {
   if (e.target.classList.contains("add-to-cart")) {
     const index = e.target.getAttribute("data-index");
     let product = ticketsArray[index];
+    totalCounter += product.price * qty;
+    console.log(totalCounter);
+    const newItem = {
+      ...product,
+      qty,
+    };
+    if (
+      !cartArray.some((item) => {
+        return item.name === product.name;
+      })
+    ) {
+      cartArray.push(newItem);
+      displayCartNumber();
+      console.log(cartArray);
+    } else {
+      let cartItemIndex = cartArray.findIndex((item) => {
+        return item.name === product.name;
+      });
+      cartArray[cartItemIndex].qty += qty;
+    }
+  }
+  cartArrayFunction();
+});
+
+clothesSection.addEventListener("click", (e) => {
+  const qty = parseInt(e.target.previousSibling.value);
+  if (e.target.classList.contains("add-to-cart")) {
+    const index = e.target.getAttribute("data-index");
+    let product = clothesArray[index];
+    totalCounter += product.price * qty;
+    const newItem = {
+      ...product,
+      qty,
+    };
+    cartArray.push(newItem);
+    displayCartNumber();
+  }
+  cartArrayFunction();
+});
+
+collectablesSection.addEventListener("click", (e) => {
+  const qty = parseInt(e.target.previousSibling.value);
+  if (e.target.classList.contains("add-to-cart")) {
+    const index = e.target.getAttribute("data-index");
+    let product = collectablesArray[index];
+    totalCounter += product.price * qty;
     const newItem = {
       ...product,
       qty,
@@ -209,23 +264,40 @@ ticketSection.addEventListener("click", (e) => {
 
 const cartArrayFunction = () => {
   cartList.innerHTML = "";
+  const checkoutButton = document.createElement("button");
   const closeButton = document.createElement("p");
+  checkoutButton.textContent = "Checkout";
+  checkoutButton.classList.add("checkout");
   closeButton.textContent = "X";
   closeButton.classList.add("close-me");
+  cartList.append(checkoutButton);
   cartList.append(closeButton);
   cartArray.forEach((item) => {
     const listItem = document.createElement("li");
     const name = document.createElement("p");
     const qty = document.createElement("p");
     const price = document.createElement("p");
+    listItem.classList.add("cart-li");
     name.textContent = item.name;
     price.textContent = item.price;
     qty.textContent = item.qty;
-    listItem.append(name, qty, price);
+    listItem.append(qty, name);
     cartList.append(listItem);
   });
-  console.log(cartArray);
 };
+
+cartContainer.addEventListener("click", (e) => {
+  const subtotal = totalCounter;
+  const salesTax = totalCounter * 0.06;
+  const total = subtotal + salesTax;
+  if (e.target.classList.contains("checkout")) {
+    subtotalP.textContent = subtotal;
+    salesTaxP.textContent = salesTax;
+    totalP.textContent = total;
+  }
+  console.log(total);
+});
+
 cartArrayFunction();
 
 // const checkoutData = {};
