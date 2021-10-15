@@ -11,9 +11,7 @@ const cartList = document.querySelector(".cart-list");
 const clothesSection = document.querySelector(".clothes-section");
 const collectablesSection = document.querySelector(".collectables-section");
 const checkoutContainer = document.querySelector(".checkout-container");
-const subtotalP = document.querySelector(".subtotal-p");
-const salesTaxP = document.querySelector(".sales-tax-p");
-const totalP = document.querySelector(".total-p");
+const formContainer = document.querySelector(".form-container");
 let totalCounter = 0;
 
 // ---- ARRAYS ----
@@ -119,6 +117,7 @@ const collectablesArray = [
 // ---- Unhides Checkout ----
 cartSection.addEventListener("click", () => {
   cartContainer.classList.remove("hide");
+  cartArrayFunction();
 });
 
 // ---- Hides Checkout ----
@@ -266,37 +265,44 @@ const cartArrayFunction = () => {
   cartList.innerHTML = "";
   const checkoutButton = document.createElement("button");
   const closeButton = document.createElement("p");
+  const subtotal = totalCounter;
+  const salesTax = totalCounter * 0.06;
+  const total = subtotal + salesTax;
+  const subtotalListItem = document.createElement("li");
+  const salesTaxListItem = document.createElement("li");
+  const totalListItem = document.createElement("li");
   checkoutButton.textContent = "Checkout";
   checkoutButton.classList.add("checkout");
   closeButton.textContent = "X";
   closeButton.classList.add("close-me");
-  cartList.append(checkoutButton);
-  cartList.append(closeButton);
+  subtotalListItem.textContent = `Subtotal: $${subtotal}`;
+  salesTaxListItem.textContent = `Sales Tax $${salesTax}`;
+  totalListItem.textContent = `Total $${total}`;
+  cartList.append(subtotalListItem, salesTaxListItem, totalListItem);
   cartArray.forEach((item) => {
     const listItem = document.createElement("li");
     const cartItem = document.createElement("p");
     listItem.classList.add("cart-li");
     cartItem.textContent = `${item.qty} x ${item.name} $${item.price}`;
-    listItem.append(cartItem);
-    cartList.append(listItem);
+    listItem.prepend(cartItem);
+    cartList.prepend(listItem);
   });
+  cartList.append(checkoutButton);
+  cartList.append(closeButton);
 };
 
 cartContainer.addEventListener("click", (e) => {
   if (e.target.classList.contains("checkout")) {
-    cartList.innerHTML = "";
-    cartArrayFunction();
-    const subtotal = totalCounter;
-    const salesTax = totalCounter * 0.06;
-    const total = subtotal + salesTax;
-    const subtotalListItem = document.createElement("li");
-    const salesTaxListItem = document.createElement("li");
-    const totalListItem = document.createElement("li");
-    subtotalListItem.textContent = `Subtotal: $${subtotal}`;
-    salesTaxListItem.textContent = `Sales Tax $${salesTax}`;
-    totalListItem.textContent = `Total $${total}`;
-    cartList.append(subtotalListItem, salesTaxListItem, totalListItem);
-    console.log(total);
+    const checkoutForm = document.createElement("form");
+    const checkoutLabel = document.createElement("label");
+    const checkoutInput = document.createElement("input");
+    const checkoutButton = document.createElement("button");
+    checkoutLabel.setAttribute("for", "select");
+    checkoutInput.setAttribute("id", "select");
+    checkoutInput.setAttribute("name", "select");
+    checkoutInput.setAttribute("type", "text");
+    checkoutForm.append(checkoutLabel, checkoutInput, checkoutButton);
+    formContainer.append(checkoutForm);
   }
 });
 
