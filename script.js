@@ -274,31 +274,31 @@ const cartArrayFunction = () => {
   cartList.append(closeButton);
   cartArray.forEach((item) => {
     const listItem = document.createElement("li");
-    const name = document.createElement("p");
-    const qty = document.createElement("p");
-    const price = document.createElement("p");
+    const cartItem = document.createElement("p");
     listItem.classList.add("cart-li");
-    name.textContent = item.name;
-    price.textContent = item.price;
-    qty.textContent = item.qty;
-    listItem.append(qty, name);
+    cartItem.textContent = `${item.qty} x ${item.name} $${item.price}`;
+    listItem.append(cartItem);
     cartList.append(listItem);
   });
 };
 
 cartContainer.addEventListener("click", (e) => {
-  const subtotal = totalCounter;
-  const salesTax = totalCounter * 0.06;
-  const total = subtotal + salesTax;
   if (e.target.classList.contains("checkout")) {
-    subtotalP.textContent = subtotal;
-    salesTaxP.textContent = salesTax;
-    totalP.textContent = total;
+    cartList.innerHTML = "";
+    cartArrayFunction();
+    const subtotal = totalCounter;
+    const salesTax = totalCounter * 0.06;
+    const total = subtotal + salesTax;
+    const subtotalListItem = document.createElement("li");
+    const salesTaxListItem = document.createElement("li");
+    const totalListItem = document.createElement("li");
+    subtotalListItem.textContent = `Subtotal: $${subtotal}`;
+    salesTaxListItem.textContent = `Sales Tax $${salesTax}`;
+    totalListItem.textContent = `Total $${total}`;
+    cartList.append(subtotalListItem, salesTaxListItem, totalListItem);
+    console.log(total);
   }
-  console.log(total);
 });
-
-cartArrayFunction();
 
 // const checkoutData = {};
 // for (let i = 0; i < cartArray.length; i++) {
