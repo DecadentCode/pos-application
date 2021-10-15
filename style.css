@@ -1,69 +1,53 @@
-h1,
-h2,
-h3,
-p {
-  margin: 0;
-}
-
+/* --Universal properties-- */
 body {
+  display: flex;
+  flex-direction: column;
   margin: 10px;
   padding: 0px;
   background-color: #daf9ff;
   font-family: "Open Sans", sans-serif;
 }
-
-h1 {
-  text-align: center;
+h1,
+h2,
+h3,
+h4,
+p {
+  padding: 0px;
+  margin: 0;
 }
-
+h1,
 h2 {
   text-align: center;
-  padding: 0px;
-  margin: 0px;
 }
-
-p {
-  font-weight: bold;
-}
-
 a {
   text-decoration: none;
   color: black;
 }
-
 img {
   width: 100%;
 }
+p {
+  font-weight: bold;
+}
 
+/* --Header/Navlist-- */
 ul {
   list-style: none;
-  padding: 0;
+  padding: 0px;
 }
-
-form {
-  display: flex;
-  justify-content: space-evenly;
-}
-
-input {
-  width: 15%;
-}
-
 .nav-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
-
 .logo {
   height: 80px;
   width: 80px;
 }
-
 .nav-list {
   display: flex;
+  flex-direction: row;
 }
-
 .nav-link {
   margin: 5px;
   padding: 10px;
@@ -75,12 +59,12 @@ input {
   border-radius: 6px;
 }
 
+/* --Cart image and counter--*/
 .cart-icon {
   margin: 5px;
   height: 60px;
   width: 60px;
 }
-
 .cart-counter {
   display: flex;
   height: 30px;
@@ -93,7 +77,6 @@ input {
   font-size: 20px;
   font-weight: bold;
 }
-
 .cart-section {
   display: flex;
   align-items: center;
@@ -102,17 +85,16 @@ input {
   bottom: 0px;
 }
 
-.tickets-section {
-  flex-wrap: wrap;
-}
-
+/* --Ticket Section-- */
 .tickets-section,
 .goods {
   display: flex;
   align-items: center;
   justify-content: center;
 }
-
+.tickets-section {
+  flex-wrap: wrap;
+}
 .ticket-container {
   display: flex;
   border: 2px dashed black;
@@ -125,23 +107,9 @@ input {
   text-align: center;
   justify-content: space-between;
 }
-
-.goods {
-  flex-direction: column;
+.ticket-images {
+  width: 100%;
 }
-
-.low-ticket {
-  background-color: coral;
-}
-
-.med-ticket {
-  background-color: #dbdbdc;
-}
-
-.high-ticket {
-  background-color: #e7d27c;
-}
-
 .low-ticket,
 .med-ticket,
 .high-ticket {
@@ -149,24 +117,25 @@ input {
   height: 300px;
   border: 6px solid #dddaff;
 }
+.low-ticket {
+  background-color: coral;
+}
+.med-ticket {
+  background-color: #dbdbdc;
+}
+.high-ticket {
+  background-color: #e7d27c;
+}
 
+/* --The products and their containers-- */
 .goods-container {
   width: 200px;
   height: 200px;
   border: 6px solid #dddaff;
 }
-
-.ticket-images {
-  width: 100%;
+.goods {
+  flex-direction: column;
 }
-
-.clothing-list,
-.collectables-list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
-}
-
 .list-item {
   border: dashed 2px gray;
   padding: 2px;
@@ -178,6 +147,24 @@ input {
   justify-content: space-between;
 }
 
+/* -- Cart-form stuff -- */
+form {
+  display: flex;
+  justify-content: space-evenly;
+}
+input {
+  width: 15%;
+}
+
+/* --The product lists-- */
+.clothing-list,
+.collectables-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+/* --The checkout pop-up-- */
 .cart-container {
   position: fixed;
   height: 100%;
@@ -190,11 +177,6 @@ input {
   justify-content: center;
   display: flex;
 }
-
-.hide {
-  display: none;
-}
-
 .cart-list {
   display: flex;
   flex-direction: column;
@@ -206,9 +188,11 @@ input {
   position: relative;
   overflow-y: scroll;
 }
-
+.hide {
+  display: none;
+}
 .close-me {
   position: absolute;
-  left: 0;
-  top: 0;
+  left: 4px;
+  top: 4px;
 }
