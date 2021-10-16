@@ -200,9 +200,11 @@ input {
 }
 .close-me {
   position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 15px;
   width: 15px;
-  text-align: center;
   left: 4px;
   top: 4px;
   cursor: pointer;
@@ -218,6 +220,17 @@ input {
   position: absolute;
   bottom: 5px;
   left: 20%;
+}
+
+#credit-number {
+  width: 50%;
+}
+
+.remove-item {
+  cursor: pointer;
+  font-weight: bold;
+  padding-right: 3px;
+  text-decoration: underline;
 }
 
 /* --Checkout Cash Container-- */
