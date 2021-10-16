@@ -12,6 +12,8 @@ const clothesSection = document.querySelector(".clothes-section");
 const collectablesSection = document.querySelector(".collectables-section");
 const checkoutContainer = document.querySelector(".checkout-container");
 const formContainer = document.querySelector(".form-container");
+let subtotalCounter = 0;
+
 let totalCounter = 0;
 
 // ---- ARRAYS ----
@@ -43,14 +45,14 @@ const clothesArray = [
     name: "Hoodie",
     category: "clothes",
     description: "hoodie",
-    price: 300,
+    price: 30,
     picture: "assets/hoodie.png",
   },
   {
     name: "Hat",
     category: "clothes",
     description: "hat",
-    price: 0.5,
+    price: 10,
     picture: "assets/hat.png",
   },
   {
@@ -64,21 +66,21 @@ const clothesArray = [
     name: "Crop Top",
     category: "clothes",
     description: "womens shirt",
-    price: 5,
+    price: 25,
     picture: "assets/rick-croptop.png",
   },
   {
     name: "Mens Shirt",
     category: "clothes",
     description: "mens shirt",
-    price: 99,
+    price: 35,
     picture: "assets/dudeshirt.png",
   },
   {
     name: "Dog Beanies",
     category: "clothes",
     description: "dog beanie",
-    price: 10,
+    price: 15,
     picture: "assets/dogbeanie.png",
   },
 ];
@@ -113,19 +115,6 @@ const collectablesArray = [
     picture: "assets/magnets.png",
   },
 ];
-
-// ---- Unhides Checkout ----
-cartSection.addEventListener("click", () => {
-  cartContainer.classList.remove("hide");
-  cartArrayFunction();
-});
-
-// ---- Hides Checkout ----
-cartContainer.addEventListener("click", (e) => {
-  if (e.target.classList.contains("close-me")) {
-    cartContainer.classList.toggle("hide");
-  }
-});
 
 // ---- Cart Counter Function ----
 const displayCartNumber = () => {
@@ -199,7 +188,8 @@ const goodsFunction = (array, destination) => {
 goodsFunction(clothesArray, clothingList);
 goodsFunction(collectablesArray, collectablesList);
 
-// ---- Not clean! ----
+// ----now working ----
+
 const addSectionListeners = (section, array) => {
   section.addEventListener("click", (e) => {
     const qty = parseInt(e.target.previousSibling.value);
@@ -234,38 +224,6 @@ addSectionListeners(ticketSection, ticketsArray);
 addSectionListeners(clothesSection, clothesArray);
 addSectionListeners(collectablesSection, collectablesArray);
 
-// clothesSection.addEventListener("click", (e) => {
-//   const qty = parseInt(e.target.previousSibling.value);
-//   if (e.target.classList.contains("add-to-cart")) {
-//     const index = e.target.getAttribute("data-index");
-//     let product = clothesArray[index];
-//     totalCounter += product.price * qty;
-//     const newItem = {
-//       ...product,
-//       qty,
-//     };
-//     cartArray.push(newItem);
-//     displayCartNumber();
-//   }
-//   cartArrayFunction();
-// });
-
-// collectablesSection.addEventListener("click", (e) => {
-//   const qty = parseInt(e.target.previousSibling.value);
-//   if (e.target.classList.contains("add-to-cart")) {
-//     const index = e.target.getAttribute("data-index");
-//     let product = collectablesArray[index];
-//     totalCounter += product.price * qty;
-//     const newItem = {
-//       ...product,
-//       qty,
-//     };
-//     cartArray.push(newItem);
-//     displayCartNumber();
-//   }
-//   cartArrayFunction();
-// });
-
 const cartArrayFunction = () => {
   cartList.innerHTML = "";
   const checkoutButtonCash = document.createElement("button");
@@ -283,22 +241,41 @@ const cartArrayFunction = () => {
   checkoutButtonCredit.classList.add("checkout-credit");
   closeButton.textContent = "X";
   closeButton.classList.add("close-me");
-  subtotalListItem.textContent = `Subtotal: $${subtotal}`;
+  subtotalListItem.textContent = `Subtotal: $${subtotal}.00`;
   salesTaxListItem.textContent = `Sales Tax $${salesTax}`;
   totalListItem.textContent = `Total $${total}`;
   cartList.append(subtotalListItem, salesTaxListItem, totalListItem);
   cartArray.forEach((item) => {
     const listItem = document.createElement("li");
     const cartItem = document.createElement("p");
+    const removeItem = document.createElement("p");
+    removeItem.classList.add("remove-item");
+    removeItem.textContent = "Remove Item";
     listItem.classList.add("cart-li");
     cartItem.textContent = `${item.qty} x ${item.name} $${item.price}`;
-    listItem.prepend(cartItem);
+    listItem.append(removeItem, cartItem);
     cartList.prepend(listItem);
+    removeItem.addEventListener("click", () => {
+      // left off here...still needs some work
+    });
   });
   cartList.append(checkoutButtonCash);
   cartList.append(checkoutButtonCredit);
   cartList.append(closeButton);
 };
+
+// ---- Unhides Checkout ----
+cartSection.addEventListener("click", () => {
+  cartContainer.classList.remove("hide");
+  cartArrayFunction();
+});
+
+// ---- Hides Checkout ----
+cartContainer.addEventListener("click", (e) => {
+  if (e.target.classList.contains("close-me")) {
+    cartContainer.classList.toggle("hide");
+  }
+});
 
 cartContainer.addEventListener("click", (e) => {
   if (e.target.classList.contains("checkout-cash")) {
@@ -309,30 +286,30 @@ cartContainer.addEventListener("click", (e) => {
     const cashInput = document.createElement("input");
     const cashButton = document.createElement("button");
     const cashTotal = document.createElement("p");
+    const total = totalCounter * 1.06;
     closeButton.textContent = "X";
     closeButton.classList.add("close-me");
-    cashTotal.textContent = `Total Due: $${totalCounter}`;
-    cashForm.append(cashTotal);
+    cashTotal.textContent = `Total Due: $${total}`;
     cashLabel.setAttribute("for", "cash");
     cashInput.setAttribute("id", "cash");
     cashInput.setAttribute("name", "cash");
     cashInput.setAttribute("type", "number");
-    cashForm.append(cashLabel, cashInput, cashButton);
-    cashForm.setAttribute("class", "cash-form");
-    cartContainer.append(cashForm);
     cashButton.textContent = "Pay Now";
-    cashInput.textContent = "Cash Provided";
-    cashLabel.textContent = "Cash Provided";
-    cashForm.append(closeButton);
+    cashInput.textContent = "Cash Paid";
+    cashLabel.textContent = "Cash Paid";
+    cashForm.setAttribute("class", "cash-form");
+    cashForm.append(closeButton, cashTotal, cashLabel, cashInput, cashButton);
+    cartContainer.append(cashForm);
     cashForm.addEventListener("submit", (e) => {
       e.preventDefault();
       const cashGiven = document.getElementById("cash").value;
-      const changeDue = cashGiven - totalCounter;
+      const changeDue = cashGiven - total;
       cashLabel.remove();
       cashInput.remove();
       cashButton.remove();
       cashTotal.remove();
       cashForm.append(`Your change is $${changeDue}`);
+      cartList.classList.remove("hide");
     });
   }
 });
@@ -350,34 +327,54 @@ cartContainer.addEventListener("click", (e) => {
     const creditCVVInput = document.createElement("input");
     const creditButton = document.createElement("button");
     const creditTotal = document.createElement("p");
+    const total = totalCounter * 1.06;
     closeButton.textContent = "X";
     closeButton.classList.add("close-me");
-    creditTotal.textContent = `Total Due: $${totalCounter}`;
+    creditTotal.textContent = `Total Due: $${total}`;
     creditForm.append(creditTotal);
-    creditNumberLabel.setAttribute("for", "creditNumber");
-    creditDateLabel.setAttribute("for", "creditDate");
-    creditCVVLabel.setAttribute("for", "creditCVV");
-    creditInput.setAttribute("id", "credit");
-    creditInput.setAttribute("name", "credit");
-    creditNumberInput.setAttribute("type", "number");
+    creditNumberLabel.setAttribute("for", "credit-number");
+    creditNumberLabel.textContent = "Credit Card Number";
+    creditNumberInput.setAttribute("id", "credit-number");
+    creditNumberInput.setAttribute("name", "credit-number");
+    creditNumberInput.setAttribute("type", "text");
+    creditNumberInput.placeholder = "Credit card number";
+    creditCVVLabel.setAttribute("for", "credit-cvv");
+    creditCVVLabel.textContent = "Security Code (CVV)";
+    creditCVVInput.setAttribute("name", "credit-cvv");
+    creditCVVInput.setAttribute("type", "text");
+    creditCVVInput.placeholder = "CVV";
+    creditDateLabel.setAttribute("for", "credit-date");
+    creditDateLabel.textContent = "Expiration-Date: mm/yy";
+    creditDateInput.setAttribute("id", "credit-date");
+    creditDateInput.setAttribute("name", "credit-date");
     creditDateInput.setAttribute("type", "number");
-    creditCVVInput.setAttribute("type", "number");
-    creditForm.append(creditLabel, creditInput, creditButton);
-    creditForm.setAttribute("class", "credit-form");
-    cartContainer.append(creditForm);
+    creditDateInput.placeholder = "mm/dd";
     creditButton.textContent = "Pay Now";
-    creditInput.textContent = "credit Provided";
-    creditLabel.textContent = "credit Provided";
-    creditForm.append(closeButton);
+    creditForm.setAttribute("class", "credit-form");
+    creditForm.append(
+      creditNumberLabel,
+      creditNumberInput,
+      creditDateLabel,
+      creditDateInput,
+      creditCVVLabel,
+      creditCVVInput,
+      creditButton,
+      closeButton
+    );
+    cartContainer.append(creditForm);
     creditForm.addEventListener("submit", (e) => {
       e.preventDefault();
-      const creditGiven = document.getElementById("credit").value;
-      const changeDue = creditGiven - totalCounter;
-      creditLabel.remove();
-      creditInput.remove();
+      const paid = document.createElement("p");
+      paid.textContent = "Paid with Credit Card";
+      creditForm.append(paid);
+      creditNumberLabel.remove();
+      creditNumberInput.remove();
+      creditDateLabel.remove();
+      creditDateInput.remove();
+      creditCVVLabel.remove();
+      creditCVVInput.remove();
       creditButton.remove();
-      creditTotal.remove();
-      creditForm.append(`Your change is $${changeDue}`);
+      cartList.classList.remove("hide");
     });
   }
 });
