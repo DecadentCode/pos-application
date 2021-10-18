@@ -17,19 +17,22 @@
       </a>
       <nav>
         <ul class="nav-list">
-          <li><a href="#" class="nav-link">Home</a></li>
-          <li><a href="#" class="nav-link">About</a></li>
-          <li><a href="#" class="nav-link">Store</a></li>
+          <li><a href="#tickets" class="nav-link">Tickets</a></li>
+          <li><a href="#clothes" class="nav-link">Clothes</a></li>
+          <li><a href="#collectables" class="nav-link">Collectables</a></li>
         </ul>
       </nav>
     </header>
     <main>
+      <section class="to-top-section">
+        <div class='to-top-button'>Scroll to Top</div>
+      </section>
       <section class="cart-section">
         <img src="assets/cart-icon.png" alt="Shopping cart icon" class="cart-icon">
         <div class="cart-counter"></div>
       </section>
       <h1>Rick's Radical Rides</h1>
-      <h2>Tickets</h2>
+      <h2 id="tickets">Tickets</h2>
       <section class="tickets-section">
         <div class="ticket-container">
             <div class="goods low-ticket">
@@ -49,15 +52,15 @@
           <div class="goods high-ticket">
               <img src="Assets/ticket3.png" alt="Golden Ticket">
           </div>
-          <h3>Grande Admission $10,000</h3>
+          <h3>Grande Admission $999</h3>
           <p>UNLIMITED RIDES! UNLIMITED GAMES! Dine with the finest of the fine and drink until your dead! Explore where no one has gone before!</p>
         </div>
       </section>
-      <section class="clothes-section">
+      <section class="clothes-section" id="clothes">
         <h2>Clothes</h2>
         <ul class="clothing-list"></ul>
       </section>
-      <section class="collectables-section">
+      <section class="collectables-section" id="collectables">
         <h2>Collectables</h2>
         <ul class="collectables-list"></ul>
       </section>
@@ -89,7 +92,7 @@
               </label>
               <label for="credit-date" class="credit-date-label">
                 Credit Card Expiration Date
-                <input type="date" name="credit-date" id="credit-date-id" />
+                <input type="month" name="credit-date" id="credit-date-id" />
               </label>
               <label for="credit-cvv" class="credit-cvv-label">
                 CVV

@@ -1,6 +1,7 @@
 "use strict";
 
 const cartSection = document.querySelector(".cart-section");
+const toTop = document.querySelector(".to-top-button");
 const cartCounter = document.querySelector(".cart-counter");
 const ticketSection = document.querySelector(".tickets-section");
 const ticketContainers = document.querySelectorAll(".ticket-container");
@@ -41,7 +42,7 @@ const ticketsArray = [
   {
     name: "Grande Admission",
     category: "ticket",
-    price: 10000,
+    price: 999,
     picture: "Assets/ticket3.png",
   },
 ];
@@ -50,42 +51,42 @@ const clothesArray = [
   {
     name: "Hoodie",
     category: "clothes",
-    description: "hoodie",
+    description: "A comfortable hoodie to keep you warm.",
     price: 30,
     picture: "assets/hoodie.png",
   },
   {
     name: "Hat",
     category: "clothes",
-    description: "hat",
+    description: "A stylish hat.",
     price: 10,
     picture: "assets/hat.png",
   },
   {
     name: "Bandana",
     category: "clothes",
-    description: "bandana",
+    description: "A beautiful bandana.",
     price: 5,
     picture: "assets/bandana.png",
   },
   {
     name: "Crop Top",
     category: "clothes",
-    description: "womens shirt",
+    description: "Owner Rick showing off the fashionable crop top.",
     price: 25,
     picture: "assets/rick-croptop.png",
   },
   {
-    name: "Mens Shirt",
+    name: "Men's Shirt",
     category: "clothes",
-    description: "mens shirt",
-    price: 35,
+    description: "A man's shirt for men.",
+    price: 99,
     picture: "assets/dudeshirt.png",
   },
   {
     name: "Dog Beanies",
     category: "clothes",
-    description: "dog beanie",
+    description: "Our bestselling product.",
     price: 15,
     picture: "assets/dogbeanie.png",
   },
@@ -95,28 +96,28 @@ const collectablesArray = [
   {
     name: "Keychains",
     category: "collectables",
-    description: "keychain",
+    description: "A chain for your keys!",
     price: 3,
     picture: "assets/keychain.png",
   },
   {
     name: "Mugs",
     category: "collectables",
-    description: "mugs",
+    description: "You can drink out of them!",
     price: 10,
     picture: "assets/mug.png",
   },
   {
     name: "Pins",
     category: "collectables",
-    description: "pins",
+    description: "Pin them on you!",
     price: 8,
     picture: "assets/pins.png",
   },
   {
     name: "Magnets",
     category: "collectables",
-    description: "magnets",
+    description: "How do they work?",
     price: 10,
     picture: "assets/magnets.png",
   },
@@ -133,6 +134,11 @@ cartContainer.addEventListener("click", (e) => {
   if (e.target.classList.contains("close-me")) {
     cartContainer.classList.add("hide");
   }
+});
+
+// ---- Scroll to top ----
+toTop.addEventListener("click", () => {
+  window.scrollTo(0, 0);
 });
 
 // ---- Cart Counter Function ----
@@ -193,8 +199,10 @@ const goodsFunction = (array, destination) => {
     const title = document.createElement("h3");
     const image = document.createElement("img");
     const price = document.createElement("p");
+    const description = document.createElement("p");
     const container = document.createElement("div");
     image.setAttribute("src", product.picture);
+    description.textContent = product.description;
     price.textContent = `$${product.price}`;
     listItem.classList.add("list-item");
     container.classList.add("goods-container");
@@ -203,7 +211,7 @@ const goodsFunction = (array, destination) => {
     let form = createForm(index);
     container.append(image);
     container.append(form);
-    listItem.append(title, container, price, form);
+    listItem.append(title, container, price, description, form);
     destination.append(listItem);
   });
 };
@@ -249,8 +257,20 @@ const cartAppend = (destination) => {
   const lineBreak = document.createElement("hr");
   cartArray.forEach((item) => {
     const listItem = document.createElement("li");
+    const picQtyDiv = document.createElement("div");
+    const listPic = document.createElement("img");
+    const listQtyP = document.createElement("p");
+    const listNameP = document.createElement("p");
+    const listPriceP = document.createElement("p");
     listItem.classList.add("cart-li");
-    listItem.textContent = `${item.qty} x ${item.name} $${item.price}`;
+    listPic.setAttribute("class", "cart-pic");
+    listPic.setAttribute("src", item.picture);
+    picQtyDiv.setAttribute("class", "pic-qty-div");
+    listQtyP.textContent = `${item.qty}x`;
+    picQtyDiv.append(listPic, listQtyP);
+    listNameP.textContent = item.name;
+    listPriceP.textContent = `$${item.price}`;
+    listItem.append(picQtyDiv, listNameP, listPriceP);
     destination.append(listItem);
   });
   destination.append(lineBreak);
@@ -286,7 +306,7 @@ cartContainer.addEventListener("click", (e) => {
     const checkoutCash = document.querySelector(".checkout-cash-screen");
     const cashForm = document.querySelector(".cash-form");
     const totalDueP = document.querySelector(".cash-form .total-due-p");
-    const lineBreak = document.createElement("p");
+    const newLine = document.createElement("p");
     const notEnough = document.querySelector(".not-enough");
     cartList.classList.add("hide");
     checkoutButtonCash.classList.add("hide");
@@ -306,9 +326,9 @@ cartContainer.addEventListener("click", (e) => {
         cartAppend(checkoutCash);
         costAppend(checkoutCash);
         checkoutCash.append(`You paid $${cashGiven}`);
-        checkoutCash.append(lineBreak);
+        checkoutCash.append(newLine);
         checkoutCash.append(`Your change is $${changeDue}`);
-        checkoutCash.append(startOverButton);
+        cartBox.append(startOverButton);
         startOverButton.addEventListener("click", () => {
           location.reload();
         });
@@ -330,7 +350,7 @@ cartContainer.addEventListener("click", (e) => {
       expDate = new Date(
         expDate.getUTCFullYear(),
         expDate.getUTCMonth(),
-        expDate.getUTCDate(),
+        31,
         23,
         59,
         59,
@@ -342,10 +362,10 @@ cartContainer.addEventListener("click", (e) => {
         expired.classList.remove("invisible");
       } else {
         creditForm.classList.add("hide");
-        checkoutCredit.append(`Thank you for your payment!`);
         cartAppend(checkoutCredit);
         costAppend(checkoutCredit);
-        checkoutCredit.append(startOverButton);
+        checkoutCredit.append(`Paid via credit card`);
+        cartBox.append(startOverButton);
         startOverButton.addEventListener("click", () => {
           location.reload();
         });
