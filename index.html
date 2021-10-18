@@ -6,31 +6,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
     <style>
-      @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+      @import url("https://fonts.googleapis.com/css2?family=Open+Sans&display=swap");
     </style>
     <title>P.O.S. Application</title>
   </head>
   <body>
-    <header class='nav-header'>
+    <header class="nav-header">
       <a href="#">
-      <img src="assets/logo.png" alt="Rick's Rides Logo" class='logo'></img>
+      <img src="assets/logo.png" alt="Rick"s Rides Logo" class="logo"></img>
       </a>
       <nav>
-        <ul class='nav-list'>
-          <li><a href="#" class='nav-link'>Home</a></li>
-          <li><a href="#" class='nav-link'>About</a></li>
-          <li><a href="#" class='nav-link'>Store</a></li>
+        <ul class="nav-list">
+          <li><a href="#" class="nav-link">Home</a></li>
+          <li><a href="#" class="nav-link">About</a></li>
+          <li><a href="#" class="nav-link">Store</a></li>
         </ul>
       </nav>
     </header>
     <main>
-      <section class='cart-section'>
-        <img src="assets/cart-icon.png" alt="Shopping cart icon" class='cart-icon'>
-        <div class='cart-counter'></div>
+      <section class="cart-section">
+        <img src="assets/cart-icon.png" alt="Shopping cart icon" class="cart-icon">
+        <div class="cart-counter"></div>
       </section>
       <h1>Rick's Radical Rides</h1>
       <h2>Tickets</h2>
-      <section class='tickets-section'>
+      <section class="tickets-section">
         <div class="ticket-container">
             <div class="goods low-ticket">
               <img src="Assets/ticket1.png" alt="General admission">
@@ -62,8 +62,44 @@
         <ul class="collectables-list"></ul>
       </section>
       <div class="cart-container hide">
-        <ul class="cart-list"></ul>
-        <div class="form-container"></div>
+        <div class="cart-box">
+          <p class="close-me">X</p>
+          <ul class="cart-list"></ul>
+          <div class="checkout-buttons">
+            <button class="checkout-credit-button">Checkout Credit</button>
+            <button class="checkout-cash-button">Checkout Cash</button>
+          </div>
+          <div class="checkout-cash-screen hide">
+            <form class="cash-form">
+              <p class="total-due-p">Total Due: $</p>
+              <label for="cash-provided" class="cash-label">
+                Cash Provided
+                <input type="number" min="0" step="0.01" name="cash-provided" id="cash-provided-id" value="0" required />
+              </label>
+              <button>Pay Now</button>
+            </form>
+            <div class='not-enough invisible'>Not Enough!</div>
+          </div>
+          <div class="checkout-credit-screen hide">
+            <form class="credit-form">
+              <p class="total-due-p">Total Due: $</p>
+              <label for="credit-number" min="0" class="credit-number-label">
+                Credit Card Number
+                <input type="tel" inputmode="numeric" minlength="16" maxlength="19" name="credit-number" min="0" id="credit-number-id" required />
+              </label>
+              <label for="credit-date" class="credit-date-label">
+                Credit Card Expiration Date
+                <input type="date" name="credit-date" id="credit-date-id" />
+              </label>
+              <label for="credit-cvv" class="credit-cvv-label">
+                CVV
+                <input type="number" min="0" minlength="3" maxlength="3" name="credit-cvv" id="credit-cvv-id" class="credit-cvv" required />
+              </label>
+              <button>Pay Now</button>
+              <div class="expired invisible">Your credit card is expired!</div>
+            </form>
+          </div>
+        </div>
       </div>
     </main>
     <script src="script.js"></script>
