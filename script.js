@@ -7,12 +7,20 @@ const ticketContainers = document.querySelectorAll(".ticket-container");
 const clothingList = document.querySelector(".clothing-list");
 const collectablesList = document.querySelector(".collectables-list");
 const cartContainer = document.querySelector(".cart-container");
+const cartBox = document.querySelector(".cart-box");
 const cartList = document.querySelector(".cart-list");
 const clothesSection = document.querySelector(".clothes-section");
 const collectablesSection = document.querySelector(".collectables-section");
 const checkoutContainer = document.querySelector(".checkout-container");
-const formContainer = document.querySelector(".form-container");
-let totalCounter = 0;
+const checkoutButtonCash = document.querySelector(".checkout-cash-button");
+const checkoutButtonCredit = document.querySelector(".checkout-credit-button");
+let subtotalCost = 0;
+let salesTax = 0;
+
+const findTotalCost = () => {
+  let totalCost = subtotalCost + salesTax;
+  return totalCost.toFixed(2);
+};
 
 // ---- ARRAYS ----
 const cartArray = [];
@@ -43,14 +51,14 @@ const clothesArray = [
     name: "Hoodie",
     category: "clothes",
     description: "hoodie",
-    price: 300,
+    price: 30,
     picture: "assets/hoodie.png",
   },
   {
     name: "Hat",
     category: "clothes",
     description: "hat",
-    price: 0.5,
+    price: 10,
     picture: "assets/hat.png",
   },
   {
@@ -64,7 +72,7 @@ const clothesArray = [
     name: "Crop Top",
     category: "clothes",
     description: "womens shirt",
-    price: 5,
+    price: 25,
     picture: "assets/rick-croptop.png",
   },
   {
@@ -78,7 +86,7 @@ const clothesArray = [
     name: "Dog Beanies",
     category: "clothes",
     description: "dog beanie",
-    price: 10,
+    price: 15,
     picture: "assets/dogbeanie.png",
   },
 ];
@@ -117,20 +125,23 @@ const collectablesArray = [
 // ---- Unhides Checkout ----
 cartSection.addEventListener("click", () => {
   cartContainer.classList.remove("hide");
-  cartArrayFunction();
+  cartListFunction();
 });
 
 // ---- Hides Checkout ----
 cartContainer.addEventListener("click", (e) => {
   if (e.target.classList.contains("close-me")) {
-    cartContainer.classList.toggle("hide");
+    cartContainer.classList.add("hide");
   }
 });
 
 // ---- Cart Counter Function ----
 const displayCartNumber = () => {
-  let cartNumber = cartArray.length;
-  cartCounter.textContent = cartNumber;
+  let totalQuantity = 0;
+  cartArray.forEach((item) => {
+    totalQuantity += item.qty;
+  });
+  cartCounter.textContent = totalQuantity;
 };
 displayCartNumber();
 
@@ -177,18 +188,18 @@ addTicketForms();
 
 // ---- Add products to page and forms to the product containers ----
 const goodsFunction = (array, destination) => {
-  array.forEach((good, index) => {
+  array.forEach((product, index) => {
     const listItem = document.createElement("li");
     const title = document.createElement("h3");
     const image = document.createElement("img");
     const price = document.createElement("p");
     const container = document.createElement("div");
-    image.setAttribute("src", good.picture);
-    price.textContent = `$${good.price}`;
+    image.setAttribute("src", product.picture);
+    price.textContent = `$${product.price}`;
     listItem.classList.add("list-item");
     container.classList.add("goods-container");
     image.classList.add("goods");
-    title.textContent = good.name;
+    title.textContent = product.name;
     let form = createForm(index);
     container.append(image);
     container.append(form);
@@ -199,15 +210,14 @@ const goodsFunction = (array, destination) => {
 goodsFunction(clothesArray, clothingList);
 goodsFunction(collectablesArray, collectablesList);
 
-// ---- Not clean! ----
+// ---- Adds click listeners to the "add to cart" buttons and stacks the product quantities----
 const addSectionListeners = (section, array) => {
   section.addEventListener("click", (e) => {
-    const qty = parseInt(e.target.previousSibling.value);
     if (e.target.classList.contains("add-to-cart")) {
+      const qty = parseInt(e.target.previousSibling.value);
       const index = e.target.getAttribute("data-index");
       let product = array[index];
-      totalCounter += product.price * qty;
-      console.log(totalCounter);
+      subtotalCost += product.price * qty;
       const newItem = {
         ...product,
         qty,
@@ -227,169 +237,119 @@ const addSectionListeners = (section, array) => {
         cartArray[cartItemIndex].qty += qty;
       }
     }
-    cartArrayFunction();
+    cartListFunction();
   });
 };
 addSectionListeners(ticketSection, ticketsArray);
 addSectionListeners(clothesSection, clothesArray);
 addSectionListeners(collectablesSection, collectablesArray);
 
-// clothesSection.addEventListener("click", (e) => {
-//   const qty = parseInt(e.target.previousSibling.value);
-//   if (e.target.classList.contains("add-to-cart")) {
-//     const index = e.target.getAttribute("data-index");
-//     let product = clothesArray[index];
-//     totalCounter += product.price * qty;
-//     const newItem = {
-//       ...product,
-//       qty,
-//     };
-//     cartArray.push(newItem);
-//     displayCartNumber();
-//   }
-//   cartArrayFunction();
-// });
+// ---- Appends a list of all the items in cartArray ----
+const cartAppend = (destination) => {
+  const lineBreak = document.createElement("hr");
+  cartArray.forEach((item) => {
+    const listItem = document.createElement("li");
+    listItem.classList.add("cart-li");
+    listItem.textContent = `${item.qty} x ${item.name} $${item.price}`;
+    destination.append(listItem);
+  });
+  destination.append(lineBreak);
+};
 
-// collectablesSection.addEventListener("click", (e) => {
-//   const qty = parseInt(e.target.previousSibling.value);
-//   if (e.target.classList.contains("add-to-cart")) {
-//     const index = e.target.getAttribute("data-index");
-//     let product = collectablesArray[index];
-//     totalCounter += product.price * qty;
-//     const newItem = {
-//       ...product,
-//       qty,
-//     };
-//     cartArray.push(newItem);
-//     displayCartNumber();
-//   }
-//   cartArrayFunction();
-// });
-
-const cartArrayFunction = () => {
-  cartList.innerHTML = "";
-  const checkoutButtonCash = document.createElement("button");
-  const checkoutButtonCredit = document.createElement("button");
-  const closeButton = document.createElement("p");
-  const subtotal = totalCounter;
-  const salesTax = totalCounter * 0.06;
-  const total = subtotal + salesTax;
+// ---- Appends the subtotal, sales tax, and total cost ----
+const costAppend = (destination) => {
   const subtotalListItem = document.createElement("li");
   const salesTaxListItem = document.createElement("li");
   const totalListItem = document.createElement("li");
-  checkoutButtonCash.textContent = "Checkout Cash";
-  checkoutButtonCash.classList.add("checkout-cash");
-  checkoutButtonCredit.textContent = "Checkout Credit";
-  checkoutButtonCredit.classList.add("checkout-credit");
-  closeButton.textContent = "X";
-  closeButton.classList.add("close-me");
-  subtotalListItem.textContent = `Subtotal: $${subtotal}`;
-  salesTaxListItem.textContent = `Sales Tax $${salesTax}`;
-  totalListItem.textContent = `Total $${total}`;
-  cartList.append(subtotalListItem, salesTaxListItem, totalListItem);
-  cartArray.forEach((item) => {
-    const listItem = document.createElement("li");
-    const cartItem = document.createElement("p");
-    listItem.classList.add("cart-li");
-    cartItem.textContent = `${item.qty} x ${item.name} $${item.price}`;
-    listItem.prepend(cartItem);
-    cartList.prepend(listItem);
-  });
-  cartList.append(checkoutButtonCash);
-  cartList.append(checkoutButtonCredit);
-  cartList.append(closeButton);
+  let totalCost = findTotalCost();
+  salesTax = totalCost * 0.06;
+  let fixedTax = salesTax.toFixed(2);
+  subtotalListItem.textContent = `Subtotal: $${subtotalCost}`;
+  salesTaxListItem.textContent = `Sales Tax $${fixedTax}`;
+  totalListItem.textContent = `Total $${totalCost}`;
+  destination.append(subtotalListItem, salesTaxListItem, totalListItem);
 };
 
+//  ---- Populates the initial checkout cart ----
+const cartListFunction = () => {
+  cartList.innerHTML = "";
+  cartAppend(cartList);
+  costAppend(cartList);
+};
+
+// ---- Takes the checkout screen to either the cash or credit checkout screens ----
 cartContainer.addEventListener("click", (e) => {
-  if (e.target.classList.contains("checkout-cash")) {
+  let totalCost = findTotalCost();
+  const startOverButton = document.createElement("button");
+  startOverButton.textContent = "Start New Order";
+  if (e.target.classList.contains("checkout-cash-button")) {
+    const checkoutCash = document.querySelector(".checkout-cash-screen");
+    const cashForm = document.querySelector(".cash-form");
+    const totalDueP = document.querySelector(".cash-form .total-due-p");
+    const lineBreak = document.createElement("p");
+    const notEnough = document.querySelector(".not-enough");
     cartList.classList.add("hide");
-    const closeButton = document.createElement("p");
-    const cashForm = document.createElement("form");
-    const cashLabel = document.createElement("label");
-    const cashInput = document.createElement("input");
-    const cashButton = document.createElement("button");
-    const cashTotal = document.createElement("p");
-    closeButton.textContent = "X";
-    closeButton.classList.add("close-me");
-    cashTotal.textContent = `Total Due: $${totalCounter}`;
-    cashForm.append(cashTotal);
-    cashLabel.setAttribute("for", "cash");
-    cashInput.setAttribute("id", "cash");
-    cashInput.setAttribute("name", "cash");
-    cashInput.setAttribute("type", "number");
-    cashForm.append(cashLabel, cashInput, cashButton);
-    cashForm.setAttribute("class", "cash-form");
-    cartContainer.append(cashForm);
-    cashButton.textContent = "Pay Now";
-    cashInput.textContent = "Cash Provided";
-    cashLabel.textContent = "Cash Provided";
-    cashForm.append(closeButton);
+    checkoutButtonCash.classList.add("hide");
+    checkoutButtonCredit.classList.add("hide");
+    checkoutCash.classList.remove("hide");
+    totalDueP.append(totalCost);
     cashForm.addEventListener("submit", (e) => {
       e.preventDefault();
-      const cashGiven = document.getElementById("cash").value;
-      const changeDue = cashGiven - totalCounter;
-      cashLabel.remove();
-      cashInput.remove();
-      cashButton.remove();
-      cashTotal.remove();
-      cashForm.append(`Your change is $${changeDue}`);
+      const cashGiven = document.getElementById("cash-provided-id").value;
+      let intTotalCost = parseInt(totalCost);
+      if (cashGiven === NaN || cashGiven < intTotalCost) {
+        notEnough.classList.remove("invisible");
+      } else {
+        const changeDue = (cashGiven - totalCost).toFixed(2);
+        notEnough.classList.add("hide");
+        cashForm.classList.add("hide");
+        cartAppend(checkoutCash);
+        costAppend(checkoutCash);
+        checkoutCash.append(`You paid $${cashGiven}`);
+        checkoutCash.append(lineBreak);
+        checkoutCash.append(`Your change is $${changeDue}`);
+        checkoutCash.append(startOverButton);
+        startOverButton.addEventListener("click", () => {
+          location.reload();
+        });
+      }
     });
-  }
-});
-
-cartContainer.addEventListener("click", (e) => {
-  if (e.target.classList.contains("checkout-credit")) {
+  } else if (e.target.classList.contains("checkout-credit-button")) {
+    const checkoutCredit = document.querySelector(".checkout-credit-screen");
+    const totalDueP = document.querySelector(".credit-form .total-due-p");
+    const creditForm = document.querySelector(".credit-form");
+    const expired = document.querySelector(".expired");
     cartList.classList.add("hide");
-    const closeButton = document.createElement("p");
-    const creditForm = document.createElement("form");
-    const creditNumberLabel = document.createElement("label");
-    const creditDateLabel = document.createElement("label");
-    const creditCVVLabel = document.createElement("label");
-    const creditNumberInput = document.createElement("input");
-    const creditDateInput = document.createElement("input");
-    const creditCVVInput = document.createElement("input");
-    const creditButton = document.createElement("button");
-    const creditTotal = document.createElement("p");
-    closeButton.textContent = "X";
-    closeButton.classList.add("close-me");
-    creditTotal.textContent = `Total Due: $${totalCounter}`;
-    creditForm.append(creditTotal);
-    creditNumberLabel.setAttribute("for", "creditNumber");
-    creditDateLabel.setAttribute("for", "creditDate");
-    creditCVVLabel.setAttribute("for", "creditCVV");
-    creditInput.setAttribute("id", "credit");
-    creditInput.setAttribute("name", "credit");
-    creditNumberInput.setAttribute("type", "number");
-    creditDateInput.setAttribute("type", "number");
-    creditCVVInput.setAttribute("type", "number");
-    creditForm.append(creditLabel, creditInput, creditButton);
-    creditForm.setAttribute("class", "credit-form");
-    cartContainer.append(creditForm);
-    creditButton.textContent = "Pay Now";
-    creditInput.textContent = "credit Provided";
-    creditLabel.textContent = "credit Provided";
-    creditForm.append(closeButton);
+    checkoutButtonCash.classList.add("hide");
+    checkoutButtonCredit.classList.add("hide");
+    checkoutCredit.classList.remove("hide");
+    totalDueP.append(totalCost);
     creditForm.addEventListener("submit", (e) => {
       e.preventDefault();
-      const creditGiven = document.getElementById("credit").value;
-      const changeDue = creditGiven - totalCounter;
-      creditLabel.remove();
-      creditInput.remove();
-      creditButton.remove();
-      creditTotal.remove();
-      creditForm.append(`Your change is $${changeDue}`);
+      let expDate = new Date(document.getElementById("credit-date-id").value);
+      expDate = new Date(
+        expDate.getUTCFullYear(),
+        expDate.getUTCMonth(),
+        expDate.getUTCDate(),
+        23,
+        59,
+        59,
+        expDate.getUTCMilliseconds()
+      );
+      const currentDate = new Date();
+      console.log(currentDate, expDate);
+      if (expDate <= currentDate) {
+        expired.classList.remove("invisible");
+      } else {
+        creditForm.classList.add("hide");
+        checkoutCredit.append(`Thank you for your payment!`);
+        cartAppend(checkoutCredit);
+        costAppend(checkoutCredit);
+        checkoutCredit.append(startOverButton);
+        startOverButton.addEventListener("click", () => {
+          location.reload();
+        });
+      }
     });
   }
 });
-
-// const receipt = receipt.append(cartArray) + receipt.append(totalCounter) + receipt.append(changeDue)
-
-// const checkoutData = {};
-// for (let i = 0; i < cartArray.length; i++) {
-//   const product = cartArray[i];
-//   if (!checkoutData[product.name]) {
-//     checkoutData[product.name] = product;
-//   } else {
-//     checkoutData[product.name].qty += product.qty;
-//   }
-// }

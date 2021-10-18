@@ -29,6 +29,13 @@ img {
 p {
   font-weight: bold;
 }
+li {
+  list-style: none;
+}
+hr {
+  border: 1px dashed gray;
+  width: 90%;
+}
 
 /* --Header/Navlist-- */
 ul {
@@ -164,7 +171,7 @@ input {
   justify-content: space-evenly;
 }
 
-/* --The checkout pop-up-- */
+/* --The intiial checkout pop-up-- */
 .cart-container {
   position: fixed;
   height: 100%;
@@ -177,47 +184,98 @@ input {
   justify-content: center;
   display: flex;
 }
-.cart-list,
-.cash-form,
-.credit-form {
+.cart-box {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 50%;
   width: 50%;
-  background-color: white;
+  border-radius: 10px;
+  background-color: #daffe0;
   position: relative;
 }
-.cart-list {
-  overflow-y: scroll;
+.cart-list,
+.credit-form,
+.cash-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 80%;
 }
-.hide {
-  display: none;
+.cart-list {
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 .cart-li {
   display: flex;
+  justify-content: space-between;
 }
 .close-me {
+  display: flex;
   position: absolute;
+  justify-content: center;
+  align-items: center;
   height: 15px;
   width: 15px;
-  text-align: center;
   left: 4px;
   top: 4px;
   cursor: pointer;
   border: 2px solid black;
+  border-radius: 50%;
+  /* other radius suggestion might be 10px to match the 10px radius of the cart-box? */
   padding: 4px;
 }
-.checkout-cash {
-  position: absolute;
-  bottom: 5px;
-  right: 20%;
+.checkout-buttons {
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
 }
-.checkout-credit {
-  position: absolute;
-  bottom: 5px;
-  left: 20%;
+/* -- Payment Screens -- */
+.cash-form,
+.credit-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.cash-label,
+.credit-number-label,
+.credit-date-label,
+.credit-cvv-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.checkout-credit-screen,
+.checkout-cash-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+#cash-provided-id {
+  width: 100px;
+}
+#credit-number-id {
+  width: 140px;
+}
+#credit-date-id {
+  width: 130px;
+}
+#credit-cvv-id {
+  width: 40px;
 }
 
-/* --Checkout Cash Container-- */
+/* -- HIDE & INVISIBILITY -- */
+.hide {
+  display: none;
+}
+.invisible {
+  visibility: hidden;
+}
