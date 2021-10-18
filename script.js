@@ -79,7 +79,7 @@ const clothesArray = [
     name: "Mens Shirt",
     category: "clothes",
     description: "mens shirt",
-    price: 99,
+    price: 35,
     picture: "assets/dudeshirt.png",
   },
   {
