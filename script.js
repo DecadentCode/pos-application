@@ -266,6 +266,8 @@ const cartAppend = (destination) => {
     listPic.setAttribute("class", "cart-pic");
     listPic.setAttribute("src", item.picture);
     picQtyDiv.setAttribute("class", "pic-qty-div");
+    listNameP.setAttribute("class", "list-name-p");
+    listPriceP.setAttribute("class", "list-price-p");
     listQtyP.textContent = `${item.qty}x`;
     picQtyDiv.append(listPic, listQtyP);
     listNameP.textContent = item.name;

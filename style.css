@@ -243,7 +243,6 @@ input {
 .cart-li {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   width: 80%;
   margin: 4px;
 }
@@ -271,9 +270,21 @@ input {
   width: 50px;
   max-height: 50px;
 }
-.pic-qty-div {
+.pic-qty-div,
+.list-name-p,
+.list-price-p {
   display: flex;
   align-items: center;
+  flex: 1;
+}
+.pic-qty-div {
+  justify-content: flex-start;
+}
+.list-name-p {
+  justify-content: center;
+}
+.list-price-p {
+  justify-content: flex-end;
 }
 
 /* -- Payment Screens -- */
